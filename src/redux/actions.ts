@@ -1,13 +1,13 @@
-import { ActionTypes } from "./actionTypes";
+import { TodoActionTypes } from "./actionTypes";
 import { TodoItem } from "./types";
 
 type SetTodosAction = {
-  type: ActionTypes.SET_TODOS;
+  type: TodoActionTypes.SET_TODOS;
   payload: { todos: TodoItem[] };
 };
 
 export const setTodos = (todos: TodoItem[]): SetTodosAction => ({
-  type: ActionTypes.SET_TODOS,
+  type: TodoActionTypes.SET_TODOS,
   payload: { todos },
 });
 

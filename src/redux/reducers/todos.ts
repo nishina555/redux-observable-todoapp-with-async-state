@@ -1,4 +1,4 @@
-import { ActionTypes } from "../actionTypes";
+import { TodoActionTypes } from "../actionTypes";
 import { TodoState } from "../types";
 import { TodoActions } from "../actions";
 
@@ -8,7 +8,7 @@ const initialState: TodoState = {
 
 const todos = (state = initialState, action: TodoActions): TodoState => {
   switch (action.type) {
-    case ActionTypes.SET_TODOS: {
+    case TodoActionTypes.SET_TODOS: {
       const { todos } = action.payload;
       return {
         todoItems: todos,
