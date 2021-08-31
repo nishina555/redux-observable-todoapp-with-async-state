@@ -16,4 +16,7 @@ export type RequestState = { status: RequestStatus };
 
 export interface RootState {
   todos: TodoState;
+  requestStatus: {
+    [actionType: string]: RequestState;
+  };
 }
