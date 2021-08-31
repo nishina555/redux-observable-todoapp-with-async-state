@@ -1,4 +1,4 @@
-import { TodoActionTypes } from "./actionTypes";
+import { TodoActionTypes, GetTodosType } from "./actionTypes";
 import { TodoItem } from "./types";
 
 type SetTodosAction = {
@@ -12,3 +12,29 @@ export const setTodos = (todos: TodoItem[]): SetTodosAction => ({
 });
 
 export type TodoActions = SetTodosAction;
+
+type GetTodosRequestAction = {
+  type: GetTodosType.GET_TODOS_REQUEST;
+};
+export const getTodosRequest = (): GetTodosRequestAction => ({
+  type: GetTodosType.GET_TODOS_REQUEST,
+});
+
+type GetTodosSuccessAction = {
+  type: GetTodosType.GET_TODOS_SUCCESS;
+};
+export const getTodosSuccess = (): GetTodosSuccessAction => ({
+  type: GetTodosType.GET_TODOS_SUCCESS,
+});
+
+type GetTodosFailureAction = {
+  type: GetTodosType.GET_TODOS_FAILURE;
+};
+export const getTodosFailure = (): GetTodosFailureAction => ({
+  type: GetTodosType.GET_TODOS_FAILURE,
+});
+
+export type GetTodosActions =
+  | GetTodosRequestAction
+  | GetTodosSuccessAction
+  | GetTodosFailureAction;
