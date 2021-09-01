@@ -1,6 +1,7 @@
 export enum TodoActionTypes {
   SET_TODOS = "SET_TODOS",
   ADD_TODO = "ADD_TODO",
+  SET_FILTER = "SET_FILTER",
 }
 
 export enum GetTodosType {
