@@ -1,4 +1,4 @@
-import { REQUEST_STATUS } from "../constants";
+import { REQUEST_STATUS, VISIBILITY_FILTERS } from "../constants";
 
 export type TodoItem = {
   id: number;
@@ -19,4 +19,8 @@ export type RootState = {
   requestStatus: {
     [actionType: string]: RequestState;
   };
+  visibilityFilter: VisibilityFilterTypes;
 };
+
+export type VisibilityFilterTypes =
+  typeof VISIBILITY_FILTERS[keyof typeof VISIBILITY_FILTERS];
