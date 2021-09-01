@@ -1,7 +1,7 @@
-import { GetTodosType } from "../actionTypes";
+import { GetTodosType, PostTodoType } from "../actionTypes";
 import { combineReducers } from "redux";
 import { REQUEST_STATUS } from "../../constants";
-import { GetTodosActions } from "../actions";
+import { GetTodosActions, PostTodoActions } from "../actions";
 import { RequestState } from "../types";
 
 const initialState: RequestState = { status: REQUEST_STATUS.NONE };
@@ -22,6 +22,23 @@ const getTodos = (
   }
 };
 
+const postTodo = (
+  state = initialState,
+  action: PostTodoActions
+): RequestState => {
+  switch (action.type) {
+    case PostTodoType.POST_TODO_REQUEST:
+      return { status: REQUEST_STATUS.REQUEST };
+    case PostTodoType.POST_TODO_SUCCESS:
+      return { status: REQUEST_STATUS.SUCCESS };
+    case PostTodoType.POST_TODO_FAILURE:
+      return { status: REQUEST_STATUS.FAILURE };
+    default:
+      return state;
+  }
+};
+
 export default combineReducers({
   getTodos,
+  postTodo,
 });

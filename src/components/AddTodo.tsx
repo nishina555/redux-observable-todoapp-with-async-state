@@ -1,6 +1,12 @@
 import React, { useState } from "react";
+import { PostTodoActions, postTodoRequest } from "../redux/actions";
+import { connect } from "react-redux";
 
-const AddTodo: React.FC = () => {
+type AddTodoProps = {
+  postTodoRequest: (input: string) => PostTodoActions;
+};
+
+const AddTodo: React.FC<AddTodoProps> = ({ postTodoRequest }) => {
   const [input, setInput] = useState("");
 
   const updateInput = (input: string) => {
@@ -8,8 +14,8 @@ const AddTodo: React.FC = () => {
   };
 
   const handleAddTodo = () => {
-    // dispatches actions to add todo
-    // sets state back to empty string
+    postTodoRequest(input);
+    setInput("");
   };
 
   return (
@@ -22,4 +28,4 @@ const AddTodo: React.FC = () => {
   );
 };
 
-export default AddTodo;
+export default connect(null, { postTodoRequest })(AddTodo);

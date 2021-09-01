@@ -14,6 +14,19 @@ const todos = (state = initialState, action: TodoActions): TodoState => {
         todoItems: todos,
       };
     }
+    case TodoActionTypes.ADD_TODO: {
+      const { id, content } = action.payload;
+      return {
+        todoItems: [
+          ...state.todoItems,
+          {
+            id,
+            content,
+            completed: false,
+          },
+        ],
+      };
+    }
     default:
       return state;
   }
