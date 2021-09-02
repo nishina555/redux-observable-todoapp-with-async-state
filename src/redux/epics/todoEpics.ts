@@ -31,7 +31,7 @@ type PostTodoItem = {
   completed: boolean;
 };
 
-export const getTodosEpic: Epic<GetTodosActions | TodoActions> = (action$) =>
+const getTodosEpic: Epic<GetTodosActions | TodoActions> = (action$) =>
   action$.pipe(
     ofType(GetTodosType.GET_TODOS_REQUEST),
     mergeMap(() =>
@@ -45,10 +45,7 @@ export const getTodosEpic: Epic<GetTodosActions | TodoActions> = (action$) =>
     )
   );
 
-export const postTodoEpic: Epic<AnyAction, AnyAction, RootState> = (
-  action$,
-  state$
-) =>
+const postTodoEpic: Epic<AnyAction, AnyAction, RootState> = (action$, state$) =>
   action$.pipe(
     ofType(PostTodoType.POST_TODO_REQUEST),
     withLatestFrom(state$),
@@ -73,7 +70,7 @@ export const postTodoEpic: Epic<AnyAction, AnyAction, RootState> = (
     })
   );
 
-export const toggleTodoEpic: Epic<AnyAction, AnyAction, RootState> = (
+const toggleTodoEpic: Epic<AnyAction, AnyAction, RootState> = (
   action$,
   state$
 ) =>
