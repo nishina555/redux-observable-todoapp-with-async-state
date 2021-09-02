@@ -59,12 +59,10 @@ export const postTodoEpic: Epic<AnyAction, AnyAction, RootState> = (
         completed: false,
       };
       return from(axios.post("http://localhost:4000/todos", todo)).pipe(
-        concatMap(() => {
-          return [
-            addTodo(payload.input, todos.todoItems.length + 1),
-            postTodoSuccess(),
-          ];
-        }),
+        concatMap(() => [
+          addTodo(payload.input, todos.todoItems.length + 1),
+          postTodoSuccess(),
+        ]),
         catchError((error: Error) => {
           console.log(error);
           return of(postTodoFailure());
@@ -83,7 +81,6 @@ export const toggleTodoEpic: Epic<AnyAction, AnyAction, RootState> = (
     // mergeMap([action, state])
     mergeMap(([{ payload }, { todos }]) => {
       const index = payload.id - 1;
-      console.log(todos.todoItems[index]);
       const todo: PostTodoItem = {
         content: todos.todoItems[index].content,
         completed: !todos.todoItems[index].completed,
@@ -91,9 +88,7 @@ export const toggleTodoEpic: Epic<AnyAction, AnyAction, RootState> = (
       return from(
         axios.patch(`http://localhost:4000/todos/${payload.id}`, todo)
       ).pipe(
-        concatMap(() => {
-          return [toggleTodo(payload.id), toggleTodoSuccess()];
-        }),
+        concatMap(() => [toggleTodo(payload.id), toggleTodoSuccess()]),
         catchError((error: Error) => {
           console.log(error);
           return of(toggleTodoFailure());
