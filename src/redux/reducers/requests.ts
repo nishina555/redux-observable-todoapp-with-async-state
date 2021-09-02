@@ -1,7 +1,11 @@
-import { GetTodosType, PostTodoType } from "../actionTypes";
+import { GetTodosType, PostTodoType, ToggleTodoType } from "../actionTypes";
 import { combineReducers } from "redux";
 import { REQUEST_STATUS } from "../../constants";
-import { GetTodosActions, PostTodoActions } from "../actions";
+import {
+  GetTodosActions,
+  PostTodoActions,
+  ToggleTodoActions,
+} from "../actions";
 import { RequestState } from "../types";
 
 const initialState: RequestState = { status: REQUEST_STATUS.NONE };
@@ -38,7 +42,24 @@ const postTodo = (
   }
 };
 
+const toggleTodo = (
+  state = initialState,
+  action: ToggleTodoActions
+): RequestState => {
+  switch (action.type) {
+    case ToggleTodoType.TOGGLE_TODO_REQUEST:
+      return { status: REQUEST_STATUS.REQUEST };
+    case ToggleTodoType.TOGGLE_TODO_SUCCESS:
+      return { status: REQUEST_STATUS.SUCCESS };
+    case ToggleTodoType.TOGGLE_TODO_FAILURE:
+      return { status: REQUEST_STATUS.FAILURE };
+    default:
+      return state;
+  }
+};
+
 export default combineReducers({
   getTodos,
   postTodo,
+  toggleTodo,
 });

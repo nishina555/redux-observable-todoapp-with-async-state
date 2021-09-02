@@ -27,6 +27,19 @@ const todos = (state = initialState, action: TodoActions): TodoState => {
         ],
       };
     }
+    case TodoActionTypes.TOGGLE_TODO: {
+      const { id } = action.payload;
+      const todoItems = state.todoItems.map((todo, index) => {
+        if (index === id - 1) {
+          return Object.assign({}, todo, { completed: !todo.completed });
+        } else {
+          return todo;
+        }
+      });
+      return {
+        todoItems: todoItems,
+      };
+    }
     default:
       return state;
   }
