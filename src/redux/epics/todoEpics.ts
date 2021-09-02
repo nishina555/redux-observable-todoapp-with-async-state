@@ -52,13 +52,15 @@ export const postTodoEpic: Epic<AnyAction, AnyAction, RootState> = (
   action$.pipe(
     ofType(PostTodoType.POST_TODO_REQUEST),
     withLatestFrom(state$),
-    // mergeMap([action, state])
+    // mergeMap([action, state]) を分割代入している
     mergeMap(([{ payload }, { todos }]) => {
       const todo: PostTodoItem = {
         content: payload.input,
         completed: false,
       };
       return from(axios.post("http://localhost:4000/todos", todo)).pipe(
+        // アロー関数のステートメントが一文(配列)のみなので、{ return ... } を省略している
+        // 省略せずに記述すると、concatMap(() => { return [...] })のようになる
         concatMap(() => [
           addTodo(payload.input, todos.todoItems.length + 1),
           postTodoSuccess(),
@@ -80,15 +82,16 @@ export const toggleTodoEpic: Epic<AnyAction, AnyAction, RootState> = (
     withLatestFrom(state$),
     // mergeMap([action, state])
     mergeMap(([{ payload }, { todos }]) => {
-      const index = payload.id - 1;
+      const targetId = payload.id;
+      const index = targetId - 1;
       const todo: PostTodoItem = {
         content: todos.todoItems[index].content,
         completed: !todos.todoItems[index].completed,
       };
       return from(
-        axios.patch(`http://localhost:4000/todos/${payload.id}`, todo)
+        axios.patch(`http://localhost:4000/todos/${targetId}`, todo)
       ).pipe(
-        concatMap(() => [toggleTodo(payload.id), toggleTodoSuccess()]),
+        concatMap(() => [toggleTodo(targetId), toggleTodoSuccess()]),
         catchError((error: Error) => {
           console.log(error);
           return of(toggleTodoFailure());
