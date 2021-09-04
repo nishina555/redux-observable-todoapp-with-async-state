@@ -1,10 +1,5 @@
 import { Epic, ofType } from "redux-observable";
-import {
-  mergeMap,
-  concatMap,
-  catchError,
-  withLatestFrom,
-} from "rxjs/operators";
+import { mergeMap, catchError, withLatestFrom } from "rxjs/operators";
 import { GetTodosType, PostTodoType, ToggleTodoType } from "../actionTypes";
 import {
   setTodos,
@@ -36,7 +31,7 @@ const getTodosEpic: Epic<GetTodosActions | TodoActions> = (action$) =>
     ofType(GetTodosType.GET_TODOS_REQUEST),
     mergeMap(() =>
       from(axios.get("http://localhost:4000/todos")).pipe(
-        concatMap((response) => [setTodos(response.data), getTodosSuccess()]),
+        mergeMap((response) => [setTodos(response.data), getTodosSuccess()]),
         catchError((error: Error) => {
           console.log(error);
           return of(getTodosFailure());
@@ -57,8 +52,8 @@ const postTodoEpic: Epic<AnyAction, AnyAction, RootState> = (action$, state$) =>
       };
       return from(axios.post("http://localhost:4000/todos", todo)).pipe(
         // アロー関数のステートメントが一文(配列)のみなので、{ return ... } を省略している
-        // 省略せずに記述すると、concatMap(() => { return [...] })のようになる
-        concatMap(() => [
+        // 省略せずに記述すると、mergeMap(() => { return [...] })のようになる
+        mergeMap(() => [
           addTodo(payload.input, todos.todoItems.length + 1),
           postTodoSuccess(),
         ]),
@@ -88,7 +83,7 @@ const toggleTodoEpic: Epic<AnyAction, AnyAction, RootState> = (
       return from(
         axios.patch(`http://localhost:4000/todos/${targetId}`, todo)
       ).pipe(
-        concatMap(() => [toggleTodo(targetId), toggleTodoSuccess()]),
+        mergeMap(() => [toggleTodo(targetId), toggleTodoSuccess()]),
         catchError((error: Error) => {
           console.log(error);
           return of(toggleTodoFailure());
